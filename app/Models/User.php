@@ -57,6 +57,6 @@ class User extends Authenticatable
     // Relacion uno a muchos - products
     public function products()
     {
-        return $this->hasMany('App/Models/Product');
+        return $this->hasMany(Product::class);
     }
 }
