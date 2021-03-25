@@ -26,12 +26,6 @@ class Product extends Model
         return $this->status == Product::PRODUCTO_DISPONIBLE;
     }
 
-    // Relacion Muchos a Muchos - category
-    public function categories()
-    {
-        return $this->belongsToMany('App/Models/Transaction');
-    }
-
     //Relacion uno a muchos inversa
     public function user()
     {
@@ -42,5 +36,11 @@ class Product extends Model
     public function transactions()
     {
         return $this->hasMany('App/Models/Transaction');
+    }
+    
+    // Relacion Muchos a Muchos - category
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
