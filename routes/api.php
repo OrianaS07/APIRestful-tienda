@@ -3,6 +3,7 @@
 use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\User\UserController;
 use GuzzleHttp\Handler\Proxy;
@@ -24,5 +25,5 @@ Route::middleware(['jwt.verify'])->group(function () {
 });
 
 Route::resource('buyers', BuyerController::class)->only('index','show');
-
+Route::resource('sellers', SellerController::class)->only('index','show');
 
