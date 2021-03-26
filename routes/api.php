@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Transaction\TransactionController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\User\UserController;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
 
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
@@ -20,6 +23,6 @@ Route::middleware(['jwt.verify'])->group(function () {
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
 });
 
-
+Route::resource('buyers', BuyerController::class)->only('index','show');
 
 
