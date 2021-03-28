@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Dotenv\Validator;
@@ -12,13 +13,13 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     // mostrar un usuario
     public function index()
     {
         $users = User::all();
-        return response()->json(['data' => $users],200);
+        return $this->showAll($users,200);
         
     }
 
@@ -27,11 +28,12 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
             try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'invalid_credentials'], 400);
-            }
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return $this->errorResponse('invalid_credentials',400) ;
+                }
             } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+                return $this->errorResponse('could_not_create_token',500);
+                
             }
         return response()->json(compact('token'));
     }
@@ -59,13 +61,13 @@ class UserController extends Controller
         ]);
 
         $token = JWTAuth::fromUser($user);
-        return response()->json(compact('user','token'),201);
+        return $this->showOne($user,201);
     }
 
     // Muestra el Usuario
     public function show(User $user)
     {
-        return response()->json(['data' => $user],200);
+        return $this->showOne($user);
     }
 
     //Verifica si el usuario ingrasado existe y retorna un ususario - show
@@ -73,14 +75,14 @@ class UserController extends Controller
     {
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return $this->errorResponse('user_not_found', 404);
             }
         } catch (TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e);
+            return $this->errorResponse('token_expired', $e);
         } catch (TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e);
+            return $this->errorResponse('token_invalid', $e);
         } catch (JWTException $e) {
-            return response()->json(['token_absent'], $e);
+            return $this->errorResponse('token_absent', $e);
         }
             return response()->json(compact('user'));
     }
@@ -95,12 +97,11 @@ class UserController extends Controller
         ]);
 
         if(!$user->isDirty()){
-            return response()->json(['error' => 'Se debe especificar al menos un valor diferentee para actualizar',
-                                    'code' => 422], 422);
+            return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar',422);
         }
 
         $user->update($request->all());
-        return response()->json(['data' => $user],200);
+        return $this->showOne($user);
 
     }
 
@@ -108,6 +109,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(null,204);
+        return $this->showOne($user,204);
     }
 }
