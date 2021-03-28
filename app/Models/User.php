@@ -29,6 +29,22 @@ class User extends Authenticatable implements JWTSubject
         // 'admin' //si es o no administrador
     ];
 
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = strtolower($name); //estable el nombre en minusculas
+    }
+
+    public function getNameAttribute($name)
+    {
+        return ucfirst($name);
+    }
+    
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = strtolower($email);
+    }
+
+    
     /**
      * The attributes that should be hidden for arrays.
      *
