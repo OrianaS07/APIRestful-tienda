@@ -4,6 +4,8 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserCollection;
 
 trait ApiResponser{
     private function successResponse($data, $code){
@@ -16,10 +18,10 @@ trait ApiResponser{
     }
 
     protected function showAll(Collection $collection, $code = 200){
-        return $this->successResponse(['data'=>$collection], $code);
+        return $this->successResponse(new UserCollection($collection), $code);
     }
 
     protected function showOne(Model $instance, $code = 200){
-        return $this->successResponse(['data'=>$instance], $code);
+        return $this->successResponse(new UserResource($instance), $code);
     }
 }

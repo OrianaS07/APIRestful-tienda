@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
@@ -13,13 +14,13 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+
 class UserController extends ApiController
 {
     // mostrar un usuario
     public function index()
     {
-        $users = User::all();
-        return $this->showAll($users,200);
+        return new UserCollection(User::paginate());
         
     }
 
