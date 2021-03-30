@@ -24,6 +24,8 @@ class CreateTransactionsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 
