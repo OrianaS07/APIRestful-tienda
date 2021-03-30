@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\Category as CategoryResource;
+use PhpParser\Node\Stmt\Return_;
 
 class CategoryController extends ApiController
 {
@@ -15,72 +19,37 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-        //
+        $categories = new CategoryCollection(Category::all());
+        return $this->showAll($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+        $category = Category::create($request->all());
+        return $this->showOne(new CategoryResource($category),201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function show(Category $category){
+        return $this->showOne(new CategoryResource($category));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->fill($request->all());
+        if($category->isClean()){
+            return $this->errorResponse('you must specify at least one different value to update',422);
+        }
+        $category->save();
+        return $this->showOne(new CategoryResource($category));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Category $category)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $category->delete();
+        return $this->showOne(new CategoryResource($category));
     }
 }

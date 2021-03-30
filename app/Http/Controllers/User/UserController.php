@@ -13,6 +13,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\User as UserResource;
 
 
 class UserController extends ApiController
@@ -21,7 +22,6 @@ class UserController extends ApiController
     public function index()
     {
         return new UserCollection(User::paginate());
-        
     }
 
     //Verifica si el usuario esta autentificado
@@ -62,13 +62,15 @@ class UserController extends ApiController
         ]);
 
         $token = JWTAuth::fromUser($user);
-        return $this->showOne($user,201);
+        $userR = new UserResource($user);
+        return $this->showOne($userR,201);
     }
 
     // Muestra el Usuario
     public function show(User $user)
     {
-        return $this->showOne($user);
+        $usu = new UserResource($user);
+        return $this->showOne($usu,201);
     }
 
     //Verifica si el usuario ingrasado existe y retorna un ususario - show
@@ -102,7 +104,8 @@ class UserController extends ApiController
         }
 
         $user->update($request->all());
-        return $this->showOne($user);
+        $userR = new UserResource($user);
+        return $this->showOne($userR);
 
     }
 
@@ -110,6 +113,7 @@ class UserController extends ApiController
     public function destroy(User $user)
     {
         $user->delete();
-        return $this->showOne($user,204);
+        $userR = new UserResource($user);
+        return $this->showOne($userR,204);
     }
 }

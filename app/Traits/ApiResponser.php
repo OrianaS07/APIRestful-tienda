@@ -17,11 +17,11 @@ trait ApiResponser{
         return response()->json(['error'=>$message, 'code'=>$code],$code);
     }
 
-    protected function showAll(Collection $collection, $code = 200){
-        return $this->successResponse(new UserCollection($collection), $code);
+    protected function showAll($collection, $code = 200){
+        return $this->successResponse($collection, $code);
     }
 
-    protected function showOne(Model $instance, $code = 200){
-        return $this->successResponse(new UserResource($instance), $code);
+    protected function showOne($instance, $code = 200){
+        return $this->successResponse($instance, $code);
     }
 }
