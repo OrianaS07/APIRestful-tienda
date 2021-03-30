@@ -32,13 +32,13 @@ class Product extends Model
     //Relacion uno a muchos inversa
     public function user()
     {
-        return $this->belongsTo('App/Models/User');
+        return $this->belongsTo(User::class);
     }
     
     // Relacion uno a Muchos - transactions
     public function transactions()
     {
-        return $this->hasMany('App/Models/Transaction');
+        return $this->hasMany(Transaction::class);
     }
     
     // Relacion Muchos a Muchos - category

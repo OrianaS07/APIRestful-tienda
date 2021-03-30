@@ -20,6 +20,6 @@ class Category extends Model
     // Relacion Muchos a Muchos - Products
     public function products()
     {
-        return $this->belongsToMany('App/Models/Product');
+        return $this->belongsToMany(Product::class);
     }
 }
