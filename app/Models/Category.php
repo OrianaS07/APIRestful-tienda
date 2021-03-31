@@ -17,9 +17,13 @@ class Category extends Model
         'description'
     ];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
     // Relacion Muchos a Muchos - Products
     public function products()
     {
-        return $this->belongsToMany('App/Models/Product');
+        return $this->belongsToMany(Product::class);
     }
 }

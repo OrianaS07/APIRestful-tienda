@@ -71,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
     //  Relación uno a muchos - transactions
     public function transactions()
     {
-        return $this->hasMany('App/Models/Transaction');
+        return $this->hasMany(Transaction::class);
     }
 
     // Relacion uno a muchos - products
