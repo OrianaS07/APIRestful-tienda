@@ -10,7 +10,10 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\CategoryProductController;
 use App\Http\Controllers\Category\CategorySellerController;
 use App\Http\Controllers\Category\CategoryTransactionController;
+use App\Http\Controllers\Product\ProductBuyerController;
+use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\ProductTransactionController;
 use App\Http\Controllers\Seller\SellerBuyerController;
 use App\Http\Controllers\Seller\SellerCategoryController;
 use App\Http\Controllers\Seller\SellerController;
@@ -34,6 +37,9 @@ Route::resource('categories.transactions', CategoryTransactionController::class)
 
 /** PRODUCTS */
 Route::resource('products', ProductController::class)->only('index','show');
+Route::resource('products.buyers', ProductBuyerController::class)->only('index');
+Route::resource('products.categories', ProductCategoryController::class)->only('index','update','destroy');
+Route::resource('products.transactions', ProductTransactionController::class)->only('index');
 
 /** TRANSACTIONS */
 Route::resource('transactions', TransactionController::class)->only('index','show');
