@@ -19,7 +19,7 @@ class Product extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'quantify' => $this->quantify,
+            'quantity' => $this->quantity,
             'status' => $this->status,
             'image' => $this->image,
             'user' => User::find($this->user_id),
