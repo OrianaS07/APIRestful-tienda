@@ -17,13 +17,13 @@ class Transaction extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'quantity' => $this->quantity,
-            'user' => User::find($this->user_id),
+            'id' => (int)$this->id,
+            'quantity' => (int)$this->quantity,
+            'buyer' => User::find($this->user_id),
             'product' => Product::find($this->product_id),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at
+            'created_at' => (string)$this->created_at,
+            'updated_at' => (string)$this->updated_at,
+            'deleted_at' => (string)$this->deleted_at
         ];
     }
 }
