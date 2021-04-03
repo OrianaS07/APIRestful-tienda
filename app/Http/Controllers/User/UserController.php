@@ -14,7 +14,8 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Resources\User as UserResource;
-
+use App\Mail\UserCreatedMailable;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
@@ -137,5 +138,19 @@ class UserController extends ApiController
         $userR = new UserResource($user);
         return $this->showOne($userR,204);
     }
+
+    public function resend(User $user)
+    {
+        if($user->esVerificado()){
+            return $this->errorResponse('Este usuario ya ha sido verificado',400);
+        }
+
+        retry(5, function () use ($user){
+            Mail::to($user)->send(new UserCreatedMailable($user));
+        }, 100);
+        
+
+        return $this->showMenssage('El correo de Verficacion se ha reenviado');
+    }   
 
 }

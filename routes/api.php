@@ -52,9 +52,8 @@ Route::resource('transactions.sellers', TransactionSellerController::class)->onl
 Route::post('register', [UserController::class, 'store']);
 Route::post('login', [UserController::class, 'authenticate']);
 Route::get('users/verify/{token}',[UserController::class, 'verify'])->name('verify');
-
 Route::resource('users', UserController::class)->except('create','edit');
-
+Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
 Route::middleware(['jwt.verify'])->group(function () {
    
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);

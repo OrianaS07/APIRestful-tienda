@@ -30,6 +30,6 @@ class UserMailChangeMailable extends Mailable
      */
     public function build()
     {
-        return $this->text('emails.confirm');
+        return $this->markdown('emails.confirm');
     }
 }

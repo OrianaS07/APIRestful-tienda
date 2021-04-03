@@ -18,8 +18,10 @@ class UserObserver
     public function created(User $user)
     {
         $usuario = new UserCreatedMailable($user);
-
-        Mail::to('osbi07@gmail.com')->send($usuario);
+        retry(5, function () use ($usuario){
+            Mail::to('osbi07@gmail.com')->send($usuario);
+        }, 100);
+        
     }
 
     /**
@@ -32,7 +34,10 @@ class UserObserver
     {
         if($user->isDirty('email')){
             $usuario = new UserMailChangeMailable($user);
-            Mail::to('osbi07@gmail.com')->send($usuario);
+            retry(5, function () use ($usuario){
+                Mail::to('osbi07@gmail.com')->send($usuario);
+            }, 100);
+            
         }
         
     }
