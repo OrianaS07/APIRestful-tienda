@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Str;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -15,8 +16,8 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable, SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    /*const USUARIO_VERIFICADO = '1';
-    const USUARIO_NO_VERIFICADO = '0';*/ // constantes de verificacion
+    const USUARIO_VERIFICADO = '1';
+    const USUARIO_NO_VERIFICADO = '0'; // constantes de verificacion
 
     /**
      * The attributes that are mass assignable.
@@ -27,11 +28,16 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        // 'verified', //si el ususario esta verificado
-        // 'verification_token', // el token de ususario verificado
+        'verified', //si el ususario esta verificado
+        'verification_token', // el token de ususario verificado
         // 'admin' //si es o no administrador
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+        //'verification_token' // verificacion del tocken al iniciar
+    ];
     public function setNameAttribute($name)
     {
         $this->attributes['name'] = strtolower($name); //estable el nombre en minusculas
@@ -53,11 +59,16 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        // 'verification_token' // verificacion del tocken al iniciar
-    ];
+    
+
+    public function esVerificado()
+    {
+        return $this->verified == User::USUARIO_VERIFICADO;
+    }
+
+    public static function generarVerificationToken(){
+        return Str::random(40);
+    }
 
     /**
      * The attributes that should be cast to native types.
