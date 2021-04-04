@@ -18,7 +18,7 @@ class TransactionSellerController extends ApiController
     public function index(Transaction $transaction)
     {
         $seller = $transaction->product->user;
-        return $this->showAll(new User($seller));
+        return $this->showOne(new User($seller));
     }
 
 }
