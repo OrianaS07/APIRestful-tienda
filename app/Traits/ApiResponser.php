@@ -18,6 +18,7 @@ trait ApiResponser{
     }
 
     protected function showAll($collection, $code = 200){
+        //$collection = $this->sortData($collection);
         return $this->successResponse($collection, $code);
     }
 
@@ -27,5 +28,13 @@ trait ApiResponser{
 
     protected function showMenssage($mensaje, $code=200){
         return $this->successResponse($mensaje, $code);
+    }
+
+    protected function sortData($collection){
+        if(request()->has('sort_by')){
+            $attribute = request()->sort_by;
+            $collection = $collection->sort_by->{$attribute};
+        }
+        return $collection;
     }
 }
