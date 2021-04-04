@@ -30,46 +30,47 @@ use Illuminate\Support\Facades\Route;
 
 
 /** CATEGORIES */ 
-Route::resource('categories', CategoryController::class)->except('create','edit');
-Route::resource('categories.buyers', CategoryBuyerController::class)->only('index');
-Route::resource('categories.sellers', CategorySellerController::class)->only('index');
-Route::resource('categories.products', CategoryProductController::class)->only('index');
-Route::resource('categories.transactions', CategoryTransactionController::class)->only('index');
+Route::resource('categories', CategoryController::class)->except('create','edit')->names('categories');
+Route::resource('categories.buyers', CategoryBuyerController::class)->only('index')->names('categories.buyers');
+Route::resource('categories.sellers', CategorySellerController::class)->only('index')->names('categories.sellers');
+Route::resource('categories.products', CategoryProductController::class)->only('index')->names('categories.products');
+Route::resource('categories.transactions', CategoryTransactionController::class)->only('index')->names('categories.transactions');
 
 /** PRODUCTS */
-Route::resource('products', ProductController::class)->only('index','show');
-Route::resource('products.buyers', ProductBuyerController::class)->only('index');
-Route::resource('products.categories', ProductCategoryController::class)->only('index','update','destroy');
-Route::resource('products.transactions', ProductTransactionController::class)->only('index');
-Route::resource('products.buyers.transactions', ProductBuyerTransactionController::class)->only('store');
+Route::resource('products', ProductController::class)->only('index','show')->names('products');
+Route::resource('products.buyers', ProductBuyerController::class)->only('index')->names('products.buyers');
+Route::resource('products.categories', ProductCategoryController::class)->only('index','update','destroy')->names('products.categories');
+Route::resource('products.transactions', ProductTransactionController::class)->only('index')->names('products.transactions');
+Route::resource('products.buyers.transactions', ProductBuyerTransactionController::class)->only('store')->names('products.buyers.transactions');
 
 /** TRANSACTIONS */
-Route::resource('transactions', TransactionController::class)->only('index','show');
-Route::resource('transactions.categories', TransactionCategoryController::class)->only('index');
-Route::resource('transactions.sellers', TransactionSellerController::class)->only('index');
+Route::resource('transactions', TransactionController::class)->only('index','show')->names('transactions');
+Route::resource('transactions.categories', TransactionCategoryController::class)->only('index')->names('transactiones.categories');
+Route::resource('transactions.sellers', TransactionSellerController::class)->only('index')->names('transactiones.sellers');
 
 /** USERS */
 Route::post('register', [UserController::class, 'store']);
 Route::post('login', [UserController::class, 'authenticate']);
+
 Route::get('users/verify/{token}',[UserController::class, 'verify'])->name('verify');
-Route::resource('users', UserController::class)->except('create','edit');
+Route::resource('users', UserController::class)->except('create','edit')->names('users');
 Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
 Route::middleware(['jwt.verify'])->group(function () {
-   
+
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
 });
 
 
 /** BUYERS */
-Route::resource('buyers', BuyerController::class)->only('index','show');
-Route::resource('buyers.sellers', BuyerSellerController::class)->only('index');
-Route::resource('buyers.products', BuyerProductController::class)->only('index');
-Route::resource('buyers.categories', BuyerCategoryController::class)->only('index');
-Route::resource('buyers.transactions', BuyerTransactionController::class)->only('index');
+Route::resource('buyers', BuyerController::class)->only('index','show')->names('buyers');
+Route::resource('buyers.sellers', BuyerSellerController::class)->only('index')->names('buyers.sellers');
+Route::resource('buyers.products', BuyerProductController::class)->only('index')->names('buyers.products');
+Route::resource('buyers.categories', BuyerCategoryController::class)->only('index')->names('buyers.categories');
+Route::resource('buyers.transactions', BuyerTransactionController::class)->only('index')->names('buyers.transactions');
 
 /** SELLERS */
-Route::resource('sellers', SellerController::class)->only('index','show');
-Route::resource('sellers.buyers', SellerBuyerController::class)->only('index');
-Route::resource('sellers.products', SellerProductController::class)->except('create','show','edit');
-Route::resource('sellers.categories', SellerCategoryController::class)->only('index');
-Route::resource('sellers.transactions', SellerTransactionController::class)->only('index');
+Route::resource('sellers', SellerController::class)->only('index','show')->names('sellers');
+Route::resource('sellers.buyers', SellerBuyerController::class)->only('index')->names('sellers.buyers');
+Route::resource('sellers.products', SellerProductController::class)->except('create','show','edit')->names('sellers.products');
+Route::resource('sellers.categories', SellerCategoryController::class)->only('index')->names('sellers.categories');
+Route::resource('sellers.transactions', SellerTransactionController::class)->only('index')->names('sellers.transactions');

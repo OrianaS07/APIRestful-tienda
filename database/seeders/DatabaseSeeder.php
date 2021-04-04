@@ -32,7 +32,10 @@ class DatabaseSeeder extends Seeder
         Category::flushEventListeners();
         Transaction::flushEventListeners();
 
+        $this->call(RoleSeeder::class);
 
+
+        User::factory(100)->create();
 
         User::factory(100)->create();
         $productos = Product::factory(300)->create();
