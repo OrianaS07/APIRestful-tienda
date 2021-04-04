@@ -24,4 +24,8 @@ trait ApiResponser{
     protected function showOne($instance, $code = 200){
         return $this->successResponse($instance, $code);
     }
+
+    protected function showMenssage($mensaje, $code=200){
+        return $this->successResponse($mensaje, $code);
+    }
 }

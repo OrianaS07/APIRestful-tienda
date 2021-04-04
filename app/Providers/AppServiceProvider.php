@@ -2,21 +2,17 @@
 
 namespace App\Providers;
 
+use App\Mail\UserCreatedMailable;
 use App\Models\Product;
+use App\Models\User;
+use App\Observers\ProductObserver;
+use App\Observers\UserObserver;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
     /**
      * Bootstrap any application services.
      *
@@ -24,11 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Product::updated(function($product){
-            if($product->quantity == 0 && $product->estaDisponible()){
-                $product->status = Product::PRODUCTO_NO_DISPONIBLE;
-                $product->save();
-            }
-        });
+        // Schema::defaultStringLength(191);
+
+        User::observe(UserObserver::class);
+        Product::observe(ProductObserver::class);
+
     }
+
 }

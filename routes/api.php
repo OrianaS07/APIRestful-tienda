@@ -51,10 +51,14 @@ Route::resource('transactions.sellers', TransactionSellerController::class)->onl
 /** USERS */
 Route::post('register', [UserController::class, 'store']);
 Route::post('login', [UserController::class, 'authenticate']);
+Route::get('users/verify/{token}',[UserController::class, 'verify'])->name('verify');
+Route::resource('users', UserController::class)->except('create','edit');
+Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
 Route::middleware(['jwt.verify'])->group(function () {
-    Route::resource('users', UserController::class)->except('create','edit');
+   
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
 });
+
 
 /** BUYERS */
 Route::resource('buyers', BuyerController::class)->only('index','show');
