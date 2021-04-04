@@ -26,7 +26,7 @@ class UserController extends ApiController
     }
 
     //Verifica si el usuario esta autentificado - verify
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
             try {
@@ -70,7 +70,7 @@ class UserController extends ApiController
             'verification_token' => User::generarVerificationToken()
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        // $token = JWTAuth::fromUser($user);
         $userR = new UserResource($user);
         return $this->showOne($userR,201);
     }
