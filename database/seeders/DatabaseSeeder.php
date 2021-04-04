@@ -26,8 +26,9 @@ class DatabaseSeeder extends Seeder
         // Transaction::truncate();
         // DB::table('category_product')->truncate();
 
-        User::factory(100)->create();
+        $this->call(RoleSeeder::class);
 
+        User::factory(100)->create();
 
         $productos = Product::factory(300)->create();
         Transaction::factory(200)->create();

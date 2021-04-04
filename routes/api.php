@@ -30,41 +30,42 @@ use Illuminate\Support\Facades\Route;
 
 
 /** CATEGORIES */ 
-Route::resource('categories', CategoryController::class)->except('create','edit');
+Route::resource('categories', CategoryController::class)->except('create','edit')->names('categories');
 Route::resource('categories.buyers', CategoryBuyerController::class)->only('index');
 Route::resource('categories.sellers', CategorySellerController::class)->only('index');
 Route::resource('categories.products', CategoryProductController::class)->only('index');
 Route::resource('categories.transactions', CategoryTransactionController::class)->only('index');
 
 /** PRODUCTS */
-Route::resource('products', ProductController::class)->only('index','show');
+Route::resource('products', ProductController::class)->only('index','show')->names('products');
 Route::resource('products.buyers', ProductBuyerController::class)->only('index');
 Route::resource('products.categories', ProductCategoryController::class)->only('index','update','destroy');
 Route::resource('products.transactions', ProductTransactionController::class)->only('index');
 Route::resource('products.buyers.transactions', ProductBuyerTransactionController::class)->only('store');
 
 /** TRANSACTIONS */
-Route::resource('transactions', TransactionController::class)->only('index','show');
+Route::resource('transactions', TransactionController::class)->only('index','show')->names('transactions');
 Route::resource('transactions.categories', TransactionCategoryController::class)->only('index');
 Route::resource('transactions.sellers', TransactionSellerController::class)->only('index');
 
 /** USERS */
 Route::post('register', [UserController::class, 'store']);
 Route::post('login', [UserController::class, 'authenticate']);
+Route::resource('users', UserController::class)->except('create','edit')->names('users');
+
 Route::middleware(['jwt.verify'])->group(function () {
-    Route::resource('users', UserController::class)->except('create','edit');
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
 });
 
 /** BUYERS */
-Route::resource('buyers', BuyerController::class)->only('index','show');
+Route::resource('buyers', BuyerController::class)->only('index','show')->names('buyers');
 Route::resource('buyers.sellers', BuyerSellerController::class)->only('index');
 Route::resource('buyers.products', BuyerProductController::class)->only('index');
 Route::resource('buyers.categories', BuyerCategoryController::class)->only('index');
 Route::resource('buyers.transactions', BuyerTransactionController::class)->only('index');
 
 /** SELLERS */
-Route::resource('sellers', SellerController::class)->only('index','show');
+Route::resource('sellers', SellerController::class)->only('index','show')->names('sellers');
 Route::resource('sellers.buyers', SellerBuyerController::class)->only('index');
 Route::resource('sellers.products', SellerProductController::class)->except('create','show','edit');
 Route::resource('sellers.categories', SellerCategoryController::class)->only('index');
