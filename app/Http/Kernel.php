@@ -30,7 +30,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            'signature: X-Aplication-Name',
+            'signature:X-Aplication-Name',
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -41,7 +41,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'signature: X-Aplication-Name',
+            'signature:X-Aplication-Name',
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
