@@ -12,7 +12,7 @@ class UserCreatedMailable extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
-    public $subjet = 'Confirmación de Correo Electrónico';
+    public $subject = 'Confirmación de Correo Electrónico';
     /**
      * Create a new message instance.
      *
